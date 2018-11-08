@@ -1,5 +1,5 @@
 # Tiny Pinterest
-Dynamic image gallery in vanilla JS. But very small.
+Dynamic image gallery in vanilla JS & CSS. But very small.
 
 The goal here is to take an array of image URLs and display the images as 
 'cards' on a dynamically sized board. The cards have a fixed width, but can 
