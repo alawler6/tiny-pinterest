@@ -1,7 +1,7 @@
 # tiny-pinterest
 Dynamic image gallery. But very small.
 
-The goal here was to take an array of image URLs and display the images as 
+The goal here is to take an array of image URLs and display the images as 
 'cards' on a dynamically sized board. The cards have a fixed width, but can 
 size up their height dependent on image dimensions.
 
