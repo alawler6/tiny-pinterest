@@ -2,7 +2,7 @@
 Tiny Pinterest
 Created by Andrew Lawler
 
-The goal here was to take an array of image URLs and display the images as 'cards' on a dynamically sized board. The cards have a fixed width, but can size up their height dependent on image dimensions.
+The goal here is to take an array of image URLs and display the images as 'cards' on a dynamically sized board. The cards have a fixed width, but can size up their height dependent on image dimensions.
 
 The main focus of this exercise is to create a sorting function that waits for each image to load and then places its card at the highest available spot on the board, taking into account the heights of other cards already placed above it.
 
@@ -37,12 +37,20 @@ window.onload = function () {
   title.innerHTML = 'Tiny Pinterest'
   document.body.appendChild(title);
 
+  //Create and position loader
+  let loader = document.createElement('div');
+  loader.id = 'loader';
+  loader.innerHTML = 'Loading...';
+  loader.style.top = (title.offsetHeight + (board.offsetHeight / 2)).toString() + 'px';
+  document.body.appendChild(loader);
+
   //Create card for each image in image_sources
   image_sources.forEach(URL => {
     let card = document.createElement('div');
     card.className = 'card';
     card.style.width = (card_width).toString() + 'px';
     card.style.height = (card_height_min).toString() + 'px';
+    card.style.visibility = 'hidden';
     document.getElementById('board').appendChild(card);
 
     let image = new Image();
@@ -70,7 +78,11 @@ window.onload = function () {
       card_offset_width = card.offsetWidth;
 
       images_loaded += 1;
-      if (images_loaded === image_sources.length) dealCards();
+      document.getElementById('loader').innerHTML = 'Loading image ' + images_loaded.toString() + ' of ' + image_sources.length.toString() + '...';
+      if (images_loaded === image_sources.length) {
+      	document.body.removeChild(document.getElementById('loader'));
+      	dealCards();
+      }
     }
 
     //Create card description
@@ -80,10 +92,6 @@ window.onload = function () {
     description.style.height = '2em';
 
     image.src = URL;
-
-    //Hide image until loaded and resized
-    image.style.display = 'none';
-
     card.appendChild(image);
     card.appendChild(description);
   });
@@ -101,6 +109,8 @@ function dealCards() {
 
   //Set x and y values for each card
   cards.forEach(card => {
+  	//Make card visible
+  	card.style.visibility = 'visible';
     /*
     Get the earliest (leftmost) index of the lowest value element in col_positions. By comparing the y values in each column, we can determine which location will allow us to place the card "highest" on the board.
     */
