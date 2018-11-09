@@ -1,3 +1,7 @@
+::-webkit-scrollbar {
+    width: 0px;
+}
+
 body {
   background: #1D1E22;
   color: #C5C8D4;
@@ -27,6 +31,12 @@ body {
 }
 
 #title {
+  width: 40%;
+  text-align: center;
+}
+
+#loader {
+  position: absolute;
   width: 40%;
   text-align: center;
 }
