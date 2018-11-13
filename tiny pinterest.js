@@ -14,6 +14,8 @@ const card_height_min = 45;
 const card_height_max = 165;
 const card_margin = 5;
 const card_padding = 5;
+const preview_width_max = 370;
+const preview_height_max = 220;
 
 let cards = [];
 let images_loaded = 0;
@@ -63,7 +65,7 @@ function getBoardWidth() {
 	return (((card_width + (card_padding * 2) + 2) * num_cols_master) + (card_margin * (num_cols_master + 1))).toString() + 'px';
 }
 
-function getViewPanePos() {
+function getPreviewPanePos() {
 	return (board.offsetWidth + (card_margin * 2)).toString() + 'px';
 }
 
@@ -99,11 +101,18 @@ function setupBoard() {
   loader.style.top = (title.offsetHeight + (board.offsetHeight / 2)).toString() + 'px';
   document.body.appendChild(loader);
 
-  //Create and position view pane
-  let view_pane = document.createElement('div');
-  view_pane.id = 'view_pane';
-  view_pane.style.left = getViewPanePos();
-  document.body.appendChild(view_pane);
+  //Create and position preview pane and associated elements
+  let preview_pane = document.createElement('div');
+  preview_pane.id = 'preview_pane';
+  preview_pane.style.left = getPreviewPanePos();
+  document.body.appendChild(preview_pane);
+  //This variable will be a larger copy of a clicked card's image
+  let preview = new Image();
+  preview.id = 'preview';
+  document.getElementById('preview_pane').appendChild(preview);
+  let preview_description = document.createElement('div');
+  preview_description.id = 'preview_description';
+  document.getElementById('preview_pane').appendChild(preview_description);
 
   //Create, label, position and populate column select drop-down
   let col_select_label = document.createElement('div');
@@ -129,7 +138,7 @@ function setupBoard() {
   	num_cols_master = Number(col_select.value);
   	board.style.width = getBoardWidth();
   	dealCards();
-  	view_pane.style.left = getViewPanePos();
+  	preview_pane.style.left = getPreviewPanePos();
   }
 
   //Create card for each image in image_sources
@@ -138,25 +147,33 @@ function setupBoard() {
     card.className = 'card';
     card.style.width = (card_width).toString() + 'px';
     card.style.height = (card_height_min).toString() + 'px';
+    /*
+    Use anonymous function to set viewImage call with param, but without evaluating it
+    */
+    card.onclick = function() {viewImage(card)};
     card.style.visibility = 'hidden';
     document.getElementById('board').appendChild(card);
 
     let image = new Image();
+    image.className = 'image';
     //Resize card after image loads
-    image.onload = function () {
+    image.onload = function() {
       this.style.display = 'inline';
 
+      //Resize image if too wide
       if (this.offsetWidth > card_width) {
         this.style.width = card_width.toString() + 'px';
         this.style.height = 'auto';
       }
 
+      //Check proportions to set orientation property
       if (this.offsetWidth > this.offsetHeight) {
         this.orientation = 'landscape';
       } else {
         this.orientation = 'portrait';
       }
 
+      //Scale down very tall portrait images
       if (this.orientation === 'portrait') {
         this.style.height = (Math.min(card_height_max, this.offsetHeight)).toString() + 'px';
         this.style.width = 'auto';
@@ -185,4 +202,43 @@ function setupBoard() {
     card.appendChild(image);
     card.appendChild(description);
   });
+}
+
+function viewImage(card) {
+	/*
+	This function takes the image from a clicked card and copies a larger version of it into the preview pane, along with its description
+	*/
+	let preview_image = document.getElementById('preview');
+	let preview_description = document.getElementById('preview_description');
+	let preview_pane = document.getElementById('preview_pane');
+	let card_image = card.getElementsByClassName('image')[0];
+	let card_description = card.getElementsByClassName('description')[0];
+
+	preview_image.src = card_image.src;
+
+	//Image resizing for preview pane
+	if (card_image.orientation === 'portrait') {
+		//Portrait images only need to be resized by height
+		preview_image.style.height = preview_height_max.toString() + 'px';
+		preview_image.style.width = 'auto';
+		preview_image.style.top = card_padding.toString() + 'px';
+		preview_image.style.left = (card_padding + (preview_width_max - preview_image.offsetWidth) / 2) + 'px';
+	} else {
+		/*
+		Landscape images, due to the fixed proportions of the preview pane, can still be too tall after being resized by width; these can therefore be scaled down by height as well.
+		*/
+		preview_image.style.width = preview_width_max.toString() + 'px';
+		preview_image.style.height = 'auto';
+		if (preview_image.offsetHeight > preview_height_max) {
+			preview_image.style.height = preview_height_max.toString() + 'px';
+			preview_image.style.width = 'auto';
+		}
+
+		//Image centering within preview pane
+		preview_image.style.top = (card_padding + (preview_height_max - preview_image.offsetHeight) / 2).toString() + 'px';
+		preview_image.style.left = (card_padding + (preview_width_max - preview_image.offsetWidth) / 2) + 'px';
+	}
+
+	//Print description to preview pane, not including card image height
+	preview_description.innerHTML = card_description.innerHTML.split('<')[0];
 }
