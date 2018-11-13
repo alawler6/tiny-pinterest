@@ -39,14 +39,14 @@ body {
 
 #col_select_label {
   position: absolute;
-  top: 19px;
+  top: 23px;
   font-size: 7pt;
   text-align: left;
 }
 
 #col_select {
   position: absolute;
-  top: 16px;
+  top: 20px;
 }
 
 #loader {
@@ -54,12 +54,27 @@ body {
   width: 100px;
 }
 
-#view_pane {
+#preview_pane {
   position: absolute;
   top: 52px;
-  width: 380px;
-  height: 320px;
-  padding: 0;
+  width: 370px;
+  height: 310px;
+  padding: 5px;
   border: 1px solid #36383F;
   overflow: hidden;
+}
+
+#preview {
+  position: absolute;
+}
+
+#preview_description {
+  position: absolute;
+  top: 230px;
+  width: 358px;
+  height: 78px;
+  padding: 2px 5px;
+  border: 1px solid #36383F;
+  font-size: 10pt;
+  text-align: left;
 }
