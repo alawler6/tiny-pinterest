@@ -188,6 +188,8 @@ function setupBoard() {
       //Once all images are loaded, remove loader and deal cards
       if (images_loaded === image_sources.length) {
       	document.body.removeChild(document.getElementById('loader'));
+      	col_select_label.style.visibility = 'visible';
+      	col_select.style.visibility = 'visible';
       	dealCards();
       }
     }
@@ -242,3 +244,5 @@ function viewImage(card) {
 	//Print description to preview pane, not including card image height
 	preview_description.innerHTML = card_description.innerHTML.split('<')[0];
 }
+
+//TODO: Get smaller images
