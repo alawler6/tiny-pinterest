@@ -13,6 +13,11 @@ body {
   position: absolute;
   border: 1px solid #36383F;
   padding: 5px;
+  user-select: none;
+}
+.card:hover {
+  border: 1px solid #8B8F9F;
+  cursor: pointer;
 }
 
 .description {
