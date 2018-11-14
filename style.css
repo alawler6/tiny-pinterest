@@ -47,11 +47,13 @@ body {
   top: 23px;
   font-size: 7pt;
   text-align: left;
+  visibility: hidden;
 }
 
 #col_select {
   position: absolute;
   top: 20px;
+  visibility: hidden;
 }
 
 #loader {
