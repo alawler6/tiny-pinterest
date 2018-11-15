@@ -20,7 +20,7 @@ const preview_height_max = 220;
 let cards = [];
 let images_loaded = 0;
 /*
-This variable will hold the rendered width of a card. All cards will share this value.
+This variable will hold the full rendered width of a card. All cards will share this value.
 */
 let card_offset_width = 0;
 //This variable sets the number of columns of cards to show on the board.
@@ -56,6 +56,7 @@ let image_sources = [
 	'https://xinhaidude.files.wordpress.com/2017/11/2017_ogunquit_droning_a200-flying-a-delta-kite-at-ogunquit-beach-img_8839.jpg?w=400&h=533',
 	'https://media.gettyimages.com/photos/dolphin-jump-up-the-water-picture-id560954145',
 	'https://media.gettyimages.com/photos/coconut-floating-in-tropical-waters-palm-tree-beach-picture-id165843697?s=612x612'];
+let image_not_found_source = 'https://tatainnoverse.com/images/4eoors.jpg';
 
 //Main function
 window.onload = setupBoard();
@@ -109,9 +110,14 @@ function resizeCard(image) {
   //Set card height based on image and description height
   image.parentElement.style.height = (Math.max(image.offsetHeight, card_height_min) + desc.offsetHeight).toString() + 'px';
 
+  if(!image.error){
   //Set card description_text property, and print card height to description
-  image.parentElement.description_text = 'Card ' + (images_loaded + 1).toString() + '</br>h: ' + image.parentElement.offsetHeight.toString() + 'px';
-  desc.innerHTML = image.parentElement.description_text;
+	  image.parentElement.description_text = 'Card ' + (images_loaded + 1).toString() + '</br>h: ' + image.parentElement.offsetHeight.toString() + 'px';
+	  desc.innerHTML = image.parentElement.description_text;
+	} else {
+		image.parentElement.description_text = '404 - Image not found'
+		desc.innerHTML = '(404)';
+	}
 }
 
 function setupBoard() {
@@ -243,6 +249,12 @@ function setupBoard() {
       }
     }
 
+    image.onerror = function() {
+    	this.error = true;
+    	this.src = image_not_found_source;
+    	this.parentElement.querySelector('.description').innerHTML = '(404)';
+    }
+
     //Create card description
     let description = document.createElement('div');
     description.className = 'description';
@@ -316,3 +328,8 @@ function viewImage(card) {
 	preview_description.value = card_description.split('<')[0];
 	document.getElementById('btn_save').disabled = true;
 }
+
+/*
+TODO:
+- Add button and functionality to change image source URL
+*/
