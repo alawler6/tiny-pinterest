@@ -99,7 +99,7 @@ function getPreviewPanePos() {
 }
 
 function onInput() {
-	if (document.getElementById('btn_save').disabled) {
+	if (document.getElementById('btn_save').disabled && !cards[current_card_index - 1].querySelector('.image').error) {
 		document.getElementById('btn_save').disabled = false;
 	}
 }
@@ -327,6 +327,12 @@ function viewImage(card) {
 	//Print description to preview pane, not including card image height
 	preview_description.value = card_description.split('<')[0];
 	document.getElementById('btn_save').disabled = true;
+
+	if(card.querySelector('.image').error) {
+		preview_description.disabled = true;
+	} else {
+		preview_description.disabled = false;
+	}
 }
 
 /*
