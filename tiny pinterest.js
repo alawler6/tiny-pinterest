@@ -25,9 +25,37 @@ This variable will hold the rendered width of a card. All cards will share this 
 let card_offset_width = 0;
 //This variable sets the number of columns of cards to show on the board.
 let num_cols_master = 10;
+let current_card_index = 0;
 
 //List of random image URLs to display
-let image_sources = ['https://www.atlantisbahamas.com/media/Things%20To%20Do/Water%20Park/Beaches/Hero/Experiences_Beach.jpg', 'https://www.popsci.com/sites/popsci.com/files/styles/1000_1x_/public/images/2018/07/beach-sand-shell.jpg?itok=im_hB8tz&fc=30,68','http://www.kairalinewsonline.com/wp-content/uploads/2017/11/Footprints-in-the-Sand-Poem.jpg','https://www.telegraph.co.uk/content/dam/Travel/2017/February/europe-beaches-Playa%20de%20Muro%20Beach-AP.jpg','https://s3.amazonaws.com/crowdriff-media/full/7b710f5acec02e3d721b3b71ce5b5add76807e6ba4ea5b71d049cbc25fdddcf7.jpg','https://www.hiltonheadisland.org/sites/default/files/2018-02/beaches_video.jpg','http://boulgerfuneralhome.com/wp-content/uploads/2017/07/sunset-beach-north-carolina-inns-thesunsetinn-photo.jpg','https://i.pinimg.com/originals/64/5d/fe/645dfeb230f62af9c8ff1f6c70e4cacc.jpg','https://i.pinimg.com/originals/4b/73/4f/4b734faf3c2a2014ff0f764b851da14b.jpg','https://www.croatiaweek.com/wp-content/uploads/2018/02/Prapratno.jpg?x46277','https://images.mentalfloss.com/sites/default/files/styles/mf_image_16x9/public/29007-istock-642987348_0.jpg?itok=zjenzqTF&resize=1100x1100','https://www.telegraph.co.uk/content/dam/Travel/Destinations/Caribbean/Antigua/antigua-beaches-Jumby-Bay.jpg?imwidth=450','https://wallpapershome.com/images/pages/pic_v/452.jpg','https://www.cairnsholidayspecialists.com.au/shared_resources/media/190EAKufw9yKSE_1024x678.jpg','https://imagesvc.timeincapp.com/v3/mm/image?url=https%3A%2F%2Fpeopledotcom.files.wordpress.com%2F2018%2F07%2Fgettyimages-821738092.jpg%3Fw%3D2000&w=700&c=sc&poi=face&q=85','http://odonocuida.pt/wp-content/uploads/2017/05/praia-em-viana-do-castelo-para-c%C3%A3es.jpg','https://cdn.sandals.com/sandals/v12/images/resorts/slu/home/main-slider/beach-ocean-beach-chairs.jpg','https://www.gotobermuda.com/sites/default/files/styles/hero/public/head-horseshoe-bay.jpg?itok=TScK839c','https://www.gohawaii.com/sites/default/files/styles/double_column_large/public/content-images/Makena%20Beach-Maui.jpg?itok=bMWe-LVZ','https://amp.businessinsider.com/images/591b97e5144293eb038b5fe0-750-562.jpg','https://timedotcom.files.wordpress.com/2018/05/180511-best-beach-vacations-domestic-glen-arbor.jpg','http://static.asiawebdirect.com/m/phuket/portals/phuket-com/homepage/island/beaches/pagePropertiesImage/phuket-beaches.jpg.jpg','https://e3.365dm.com/18/07/1096x616/skynews-fernandina-beach-florida_4361846.jpg?20180714151959','https://www.thelocal.se/userdata/images/article/6acdcf623d5bb34ead7a8441f366b57841bb8010ee5eb51b827c8dbabbbb70d6.jpg','http://cdn.cnn.com/cnnnext/dam/assets/160413160609-05-bali-bingin-beach-super-tease.jpg','https://www.traveldudes.org/sites/default/files/beaches.jpeg','https://trustedpartner.azureedge.net/images/palmbeachatlanticuniversity2015/HomepageMedia/2107182E-0627-E784-74F42576BBFE1152/Web_DeSaturatedf_8_2017_A295_Clock_Tower_at_Palm_Beach_Island_Worth_Avenue_Original_Kimo_WIZHSOIR.jpg'];
+let image_sources = [
+	'https://media.gettyimages.com/photos/japan-mie-prefecture-shirahama-beach-beach-umbrellas-on-beach-picture-id76014058?s=612x612',
+	'https://media.gettyimages.com/photos/beach-sunset-picture-id173250862?s=612x612',
+	'https://www.sydney.com/sites/sydney/files/styles/seasonal_mobile/public/2018-02/Where-to-Stay_5.jpg?itok=aWidPUvh',
+	'https://media.gettyimages.com/photos/hawaii-oahu-sunset-beach-solitary-footprints-on-sandy-beach-incoming-picture-id177839178?s=612x612',
+	'https://www.beaches.com/assets/img/destinations/jm-resort-negril.jpg',
+	'https://media.gettyimages.com/photos/carefree-woman-swinging-above-the-sea-at-sunset-beach-picture-id538024696?s=612x612',
+	'https://media.gettyimages.com/photos/delaware-water-gap-picture-id157606961?s=612x612',
+	'https://media.gettyimages.com/photos/kaanapali-beach-and-resort-hotels-on-maui-hawaii-picture-id518466144?s=612x612',
+	'https://res.cloudinary.com/gray-malin/image/fetch/c_scale,q_50,w_450/https://s3.amazonaws.com/gray-malin/products/Positano-Beach-Vertical.jpg',
+	'https://s3.amazonaws.com/crowdriff-media/full/9e84e7a84a4a54c02ba063b58e0578ee4affe7eb6a8e0161b6dd2de4a6ef2c15.jpg',
+	'https://media.gettyimages.com/photos/drone-flying-over-hills-close-to-lanikai-white-sand-beach-picture-id897863310?s=612x612',
+	'https://media.gettyimages.com/photos/buildings-by-sea-at-laguna-beach-picture-id755743675?s=612x612',
+	'https://media.gettyimages.com/photos/panama-city-beach-florida-resort-skyline-picture-id98154309',
+	'https://www.tarragonaturisme.cat/sites/default/files/styles/side_images/public/pagina/side-gallery/1706920611tamarit-3672.jpg?itok=5yi6Mp_E',
+	'https://image.shutterstock.com/image-photo/beach-lounger-on-sand-web-260nw-544449145.jpg',
+	'https://i.etsystatic.com/6377154/r/il/b8a9bf/456500882/il_570xN.456500882_4g22.jpg',
+	'https://media.gettyimages.com/photos/open-water-swimming-picture-id564171879?s=612x612',
+	'https://media.gettyimages.com/photos/boundary-waters-canoe-area-picture-id1030413096?s=612x612',
+	'https://media.gettyimages.com/photos/water-surface-picture-id185323659?s=612x612',
+	'https://1dib1q3k1s3e11a5av3bhlnb-wpengine.netdna-ssl.com/wp-content/uploads/2013/12/la-concha-san-sebastian.jpg',
+	'https://media.gettyimages.com/photos/delaware-water-gap-monroe-county-pennsylvania-usa-circa-1900-view-of-picture-id1055134840?s=612x612',
+	'https://media.gettyimages.com/photos/water-hyacinth-in-reservoir-and-mountain-reflection-on-water-picture-id953165034?s=612x612',
+	'https://media.gettyimages.com/photos/brown-bear-in-water-hunting-brooks-river-katmai-national-park-alaska-picture-id1057868990?s=612x612',
+	'https://media.gettyimages.com/photos/view-of-nakhi-ghat-as-ganga-river-water-continues-to-swell-on-11-in-picture-id1031578452?s=612x612',
+	'https://xinhaidude.files.wordpress.com/2017/11/2017_ogunquit_droning_a200-flying-a-delta-kite-at-ogunquit-beach-img_8839.jpg?w=400&h=533',
+	'https://media.gettyimages.com/photos/dolphin-jump-up-the-water-picture-id560954145',
+	'https://media.gettyimages.com/photos/coconut-floating-in-tropical-waters-palm-tree-beach-picture-id165843697?s=612x612'];
 
 //Main function
 window.onload = setupBoard();
@@ -69,14 +97,21 @@ function getPreviewPanePos() {
 	return (board.offsetWidth + (card_margin * 2)).toString() + 'px';
 }
 
+function onInput() {
+	if (document.getElementById('btn_save').disabled) {
+		document.getElementById('btn_save').disabled = false;
+	}
+}
+
 function resizeCard(image) {
-  let desc = image.parentElement.getElementsByClassName('description')[0];
+  let desc = image.parentElement.querySelector('.description');
 
   //Set card height based on image and description height
   image.parentElement.style.height = (Math.max(image.offsetHeight, card_height_min) + desc.offsetHeight).toString() + 'px';
 
-  //Print image height to card's description
-  desc.innerHTML = 'Card ' + (images_loaded + 1).toString() + '</br>h: ' + image.parentElement.offsetHeight.toString() + 'px';
+  //Set card description_text property, and print card height to description
+  image.parentElement.description_text = 'Card ' + (images_loaded + 1).toString() + '</br>h: ' + image.parentElement.offsetHeight.toString() + 'px';
+  desc.innerHTML = image.parentElement.description_text;
 }
 
 function setupBoard() {
@@ -110,21 +145,31 @@ function setupBoard() {
   let preview = new Image();
   preview.id = 'preview';
   document.getElementById('preview_pane').appendChild(preview);
-  let preview_description = document.createElement('div');
+  let preview_description = document.createElement('textarea');
   preview_description.id = 'preview_description';
+  preview_description.addEventListener('input', onInput)
   document.getElementById('preview_pane').appendChild(preview_description);
+  let preview_title = document.createElement('div');
+  preview_title.id = 'preview_title';
+  preview_title.innerHTML = 'Selected card';
+  document.getElementById('preview_pane').appendChild(preview_title);
+  let btn_save = document.createElement('input');
+  btn_save.type = 'button';
+  btn_save.id = 'btn_save';
+  btn_save.value = 'Save';
+  btn_save.onclick = function() {updateCard()};
+  btn_save.disabled = true;
+  document.getElementById('preview_pane').appendChild(btn_save);
 
   //Create, label, position and populate column select drop-down
   let col_select_label = document.createElement('div');
   col_select_label.id = 'col_select_label';
   col_select_label.innerHTML = 'Columns';
-  col_select_label.style.left = (board.offsetWidth - 130).toString() + 'px';
   document.body.appendChild(col_select_label);
   let col_select = document.createElement('select');
   //Create array of selectable values
   let col_values = ['4', '5', '6', '7', '8', '9', '10'];
   col_select.id = 'col_select';
-  col_select.style.left = (board.offsetWidth - 84).toString() + 'px';
   document.body.appendChild(col_select);
   col_values.forEach(val => {
   	let option = document.createElement('option');
@@ -183,6 +228,10 @@ function setupBoard() {
       card_offset_width = card.offsetWidth;
 
       images_loaded += 1;
+      /*
+      This property will be referenced with the preview pane to determine where to save changes
+      */
+      card.card_index = images_loaded;
       //Update loader text with current image count
       document.getElementById('loader').innerHTML = 'Loading image ' + images_loaded.toString() + ' of ' + image_sources.length.toString() + '...';
       //Once all images are loaded, remove loader and deal cards
@@ -206,6 +255,27 @@ function setupBoard() {
   });
 }
 
+function updateCard() {
+	let card_to_update = cards[current_card_index - 1];
+	let height = '</br>h: ' + card_to_update.offsetHeight.toString() + 'px';
+	let new_description = document.getElementById('preview_description').value;
+	let trimmed_description = new_description;
+
+	if (new_description.length > 11) {
+		trimmed_description = new_description.substring(0, 7) + '...'
+	}
+
+	if (new_description.length === 0) {
+		trimmed_description = '---';
+	}
+
+	trimmed_description += height;
+	card_to_update.description_text = new_description + height;
+	card_to_update.querySelector('.description').innerHTML = trimmed_description;
+
+	document.getElementById('btn_save').disabled = true;
+}
+
 function viewImage(card) {
 	/*
 	This function takes the image from a clicked card and copies a larger version of it into the preview pane, along with its description
@@ -213,10 +283,11 @@ function viewImage(card) {
 	let preview_image = document.getElementById('preview');
 	let preview_description = document.getElementById('preview_description');
 	let preview_pane = document.getElementById('preview_pane');
-	let card_image = card.getElementsByClassName('image')[0];
-	let card_description = card.getElementsByClassName('description')[0];
+	let card_image = card.querySelector('.image');
+	let card_description = card.description_text;
 
 	preview_image.src = card_image.src;
+	current_card_index = card.card_index;
 
 	//Image resizing for preview pane
 	if (card_image.orientation === 'portrait') {
@@ -242,7 +313,6 @@ function viewImage(card) {
 	}
 
 	//Print description to preview pane, not including card image height
-	preview_description.innerHTML = card_description.innerHTML.split('<')[0];
+	preview_description.value = card_description.split('<')[0];
+	document.getElementById('btn_save').disabled = true;
 }
-
-//TODO: Get smaller images
