@@ -38,7 +38,7 @@ let image_sources = [
 	'https://media.gettyimages.com/photos/delaware-water-gap-picture-id157606961?s=612x612',
 	'https://media.gettyimages.com/photos/kaanapali-beach-and-resort-hotels-on-maui-hawaii-picture-id518466144?s=612x612',
 	'https://res.cloudinary.com/gray-malin/image/fetch/c_scale,q_50,w_450/https://s3.amazonaws.com/gray-malin/products/Positano-Beach-Vertical.jpg',
-	'https://s3.amazonaws.com/crowdriff-media/full/9e84e7a84a4a54c02ba063b58e0578ee4affe7eb6a8e0161b6dd2de4a6ef2c15.jpg',
+	'https://media.gettyimages.com/photos/woman-sunbathing-in-beach-chair-picture-id536651182?s=612x612',
 	'https://media.gettyimages.com/photos/drone-flying-over-hills-close-to-lanikai-white-sand-beach-picture-id897863310?s=612x612',
 	'https://media.gettyimages.com/photos/buildings-by-sea-at-laguna-beach-picture-id755743675?s=612x612',
 	'https://media.gettyimages.com/photos/panama-city-beach-florida-resort-skyline-picture-id98154309',
